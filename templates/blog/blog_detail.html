@@ -1,0 +1,73 @@
+<style>
+  .card-text-limit {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 3; /* Limit to 3 lines */
+      line-height: 1.5; /* Adjust line height as needed */
+  }
+</style>
+{% extends 'base.html' %} 
+{% block content %}
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+  <h1>Blog Detail Page</h1>
+  <a href="{% url 'blog:blog_list' %}" class="btn btn-success float-start ">Back</a>
+  <a href="{% url 'blog:logout' %}" class="btn btn-success float-end ">Logout</a>
+  </div>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li style="color:green">{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+<div class="container mt-5">
+  <div class="card" > 
+    <div class="card-body">
+      <h4 class="card-title">Blog Title:{{blog.title}}</h4>
+      <p class="card-text card-text-limit">{{blog.content}}</p>
+      <b><p class="card-text card-text-limit">Author: {{blog.author.first_name|title}}</p></b>
+      <br>
+      <a href="{% url 'blog:add_like' blog.id %}" class="btn btn-primary">Like</a>
+      <a href="{% url 'blog:blog_email' blog.id %}" class="btn btn-primary">Share by email</a>
+
+    </div>
+  </div>
+
+
+<!--load comment-->
+<div class="card  mt-5 " style="border:aliceblue">
+
+  {% if comments %}
+  <h3>Comments</h3>
+    <div class="card-body">
+        <div class="row">
+      {% for comment in comments%}
+      <input class="form-control" readonly value="{{comment.content}}" type="text" placeholder="Default input" aria-label="default input example">
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <h6>No comments are available</h6>
+
+  {% endif %}
+</div>
+
+
+  <div class="card mt-5" style="border:aliceblue" > 
+         <h3>Add new comment</h3>
+                <form action="{% url 'blog:add_comment' blog.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3 mt-3">
+                        <label for="comment">Comments:</label>
+                        <textarea class="form-control" required  rows="5" id="content" name="content"></textarea>
+                      </div>
+                    <div class="form-check mb-3">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

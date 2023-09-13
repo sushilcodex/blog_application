@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+<h1>Share blog by email</h1>
+<a href="{% url 'blog:blog_detail' blog.id %}" class="btn btn-success float-start ">Back</a>
+
+</div>
+
+<div class="container mt-5">
+<div class="row">
+    <div class="col-sm-2">
+        </div>
+    <div class="col-sm-8">
+      <div class="card mt-5" style="border:aliceblue" > 
+        <h3>Send Blog by email</h3>
+        
+               <form action="" method="POST">
+                   {% csrf_token %}
+                   
+                   <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+                  </div>
+
+                   <div class="mb-3 mt-3">
+                       <label for="comment">Blog Content:</label>
+                       <textarea readonly class="form-control" rows="5" id="content" name="content">{{blog.content}}</textarea>
+                     </div>
+                   <div class="form-check mb-3">
+                   </div>
+                   <button type="submit" class="btn btn-primary">Send Email</button>
+                 </form>
+     </div>
+    </div>
+    <div class="col-sm-2">
+    
+    </div>
+</div>
+{% endblock %}
